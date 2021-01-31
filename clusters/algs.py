@@ -1,3 +1,6 @@
+class Ligand():
+	pass
+
 class HierarchicalClustering():
 	pass
 
