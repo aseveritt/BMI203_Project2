@@ -1,4 +1,0 @@
-git remote remove origin
-git remote add origin https://github.com/aseveritt/BMI203_Project2.git
-git branch -M main
-git push -u origin main
