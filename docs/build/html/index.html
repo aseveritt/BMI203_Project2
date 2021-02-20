@@ -1,0 +1,693 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BMI203:Project 2: Clustering documentation &#8212; BMI203:Project 2: Clustering  documentation</title>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="bmi203-project-2-clustering-documentation">
+<h1>BMI203:Project 2: Clustering documentation<a class="headerlink" href="#bmi203-project-2-clustering-documentation" title="Permalink to this headline">¶</a></h1>
+<p>hello again!</p>
+<hr class="docutils" />
+<span class="target" id="module-Project2.clusters.algs"></span><dl class="py class">
+<dt id="Project2.clusters.algs.HierarchicalClustering">
+<em class="property">class </em><code class="sig-prename descclassname">Project2.clusters.algs.</code><code class="sig-name descname">HierarchicalClustering</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">element_dict</span></em>, <em class="sig-param"><span class="n">linkage_metric</span><span class="o">=</span><span class="default_value">'single'</span></em>, <em class="sig-param"><span class="n">distance_metric</span><span class="o">=</span><span class="default_value">'euclidean'</span></em>, <em class="sig-param"><span class="n">desired_k</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">testing</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#Project2.clusters.algs.HierarchicalClustering" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform hierarchical/agglomerative clustering.</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">For all values in dictionary, generate a proximity matrix represneting the</div>
+<div class="line">distance from all data points to each other. Iteratively find the smallest</div>
+<div class="line">distance between clusters and merge them together using the specified linkage</div>
+<div class="line">function until the desiered number of clusters, k, is reached.</div>
+</div>
+<div class="line-block">
+<div class="line">Ideally, the number of clusters would not be needed and instead the function would choose based on an ideal</div>
+<div class="line">quality metric like the silhoutte width. Or a user could output a dendrogram and select their cut-off distance threshold.</div>
+<div class="line">I didn’t have time to implement either of those.</div>
+</div>
+<div class="line-block">
+<div class="line">SUB functions:</div>
+<div class="line-block">
+<div class="line">initialize_proximity()</div>
+<div class="line">find_closest_clusters()</div>
+<div class="line">merge_closest_clusters()</div>
+<div class="line">update_link_mat()</div>
+<div class="line">cluster()</div>
+</div>
+</div>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>element_dict</strong> (<em>dictionary of class Ligand</em>) – dictionary where key is identifying element and values is a Ligand class</p></li>
+<li><p><strong>linkage_metric</strong> (<em>str</em>) – [“single” (default), “average”, “complete”]</p></li>
+<li><p><strong>distance_metric</strong> (<em>str</em>) – [ “euclidean” (default), “jaccard”, “tanimoto” (equivalent to jaccard here)]</p></li>
+<li><p><strong>desired_k</strong> (<em>int</em>) – defaults 1. Desired number of clusters.</p></li>
+<li><p><strong>testing</strong> (<em>bool</em>) – defaults False. True will not initialize proximity matrix.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="Project2.clusters.algs.HierarchicalClustering.cluster">
+<code class="sig-name descname">cluster</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Project2.clusters.algs.HierarchicalClustering.cluster" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cluster input data into specified number of clusters k</p>
+<div class="line-block">
+<div class="line">Initialize proximity matrix, while termination command hasn’t been met,</div>
+<div class="line">continue to find the closest cluters, merge them, and update the linkage matrix.</div>
+<div class="line">Output the final cluster assignments.</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="Project2.clusters.algs.HierarchicalClustering.find_closest_clusters">
+<code class="sig-name descname">find_closest_clusters</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Project2.clusters.algs.HierarchicalClustering.find_closest_clusters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find closest clusters in proximity matrix.</p>
+<div class="line-block">
+<div class="line">Identify the smallest value in proximity matrix and return the column and index</div>
+<div class="line">name. Note: order not important since matrix is symmetrical</div>
+</div>
+<dl class="py attribute">
+<dt id="Project2.clusters.algs.HierarchicalClustering.min_col">
+<code class="sig-name descname">min_col</code><a class="headerlink" href="#Project2.clusters.algs.HierarchicalClustering.min_col" title="Permalink to this definition">¶</a></dt>
+<dd><p>First cluster name with smallest distance to second</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="Project2.clusters.algs.HierarchicalClustering.min_row">
+<code class="sig-name descname">min_row</code><a class="headerlink" href="#Project2.clusters.algs.HierarchicalClustering.min_row" title="Permalink to this definition">¶</a></dt>
+<dd><p>Second cluster name with smallest distance to first</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py method">
+<dt id="Project2.clusters.algs.HierarchicalClustering.merge_closest_clusters">
+<code class="sig-name descname">merge_closest_clusters</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">min_row</span></em>, <em class="sig-param"><span class="n">min_col</span></em><span class="sig-paren">)</span><a class="headerlink" href="#Project2.clusters.algs.HierarchicalClustering.merge_closest_clusters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Merge the specified clusters together.</p>
+<div class="line-block">
+<div class="line">Using the specificied linkage function in self, create a new column</div>
+<div class="line">(name: ‘(min_row, min_col)’) that represents the new cluster.</div>
+<div class="line">This new column will be added to the proximity matrix, while the two</div>
+<div class="line">original columns will be removed.</div>
+</div>
+<div class="line-block">
+<div class="line">Update self.proximity_matrix with this value.</div>
+<div class="line">Update self.Nclusters</div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>min_col</strong> (<em>str</em>) – Name of cluster A</p></li>
+<li><p><strong>min_row</strong> (<em>str</em>) – Name of cluster B</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="Project2.clusters.algs.HierarchicalClustering.update_link_mat">
+<code class="sig-name descname">update_link_mat</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">a</span></em>, <em class="sig-param"><span class="n">b</span></em>, <em class="sig-param"><span class="n">zindex</span></em>, <em class="sig-param"><span class="n">merge_indexing_start</span></em><span class="sig-paren">)</span><a class="headerlink" href="#Project2.clusters.algs.HierarchicalClustering.update_link_mat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate Linkage Matrix. (aka zmat)</p>
+<div class="line-block">
+<div class="line">Matrix is in the form:</div>
+<div class="line">[Node A, Node B, distance(clusterA, clusterB), Number of original total observations A +B ]</div>
+<div class="line">This is an imput to the scipy.dendrogram function so I could do some plotting.</div>
+</div>
+<dl class="py attribute">
+<dt id="Project2.clusters.algs.HierarchicalClustering.a">
+<code class="sig-name descname">a</code><a class="headerlink" href="#Project2.clusters.algs.HierarchicalClustering.a" title="Permalink to this definition">¶</a></dt>
+<dd><p>Name of cluster A</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="Project2.clusters.algs.HierarchicalClustering.b">
+<code class="sig-name descname">b</code><a class="headerlink" href="#Project2.clusters.algs.HierarchicalClustering.b" title="Permalink to this definition">¶</a></dt>
+<dd><p>Name of cluster B</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="Project2.clusters.algs.HierarchicalClustering.zindex">
+<code class="sig-name descname">zindex</code><a class="headerlink" href="#Project2.clusters.algs.HierarchicalClustering.zindex" title="Permalink to this definition">¶</a></dt>
+<dd><p>keys = nodes, values = node value for plotting</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="Project2.clusters.algs.HierarchicalClustering.merge_indexing_start">
+<code class="sig-name descname">merge_indexing_start</code><a class="headerlink" href="#Project2.clusters.algs.HierarchicalClustering.merge_indexing_start" title="Permalink to this definition">¶</a></dt>
+<dd><p>current node index value</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="Project2.clusters.algs.Ligand">
+<em class="property">class </em><code class="sig-prename descclassname">Project2.clusters.algs.</code><code class="sig-name descname">Ligand</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">LigandID</span></em>, <em class="sig-param"><span class="n">Score</span></em>, <em class="sig-param"><span class="n">SMILES</span></em>, <em class="sig-param"><span class="n">denseBits</span></em><span class="sig-paren">)</span><a class="headerlink" href="#Project2.clusters.algs.Ligand" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stores relevant information for the Ligand information provided.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>file</strong> (<em>sequence</em>) – FASTA file located in sequence directory to be loaded</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt id="Project2.clusters.algs.Ligand.LigandID">
+<code class="sig-name descname">LigandID</code><a class="headerlink" href="#Project2.clusters.algs.Ligand.LigandID" title="Permalink to this definition">¶</a></dt>
+<dd><p>Identifying Ligand ID (in this project akin to rownames)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str/int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="Project2.clusters.algs.Ligand.Score">
+<code class="sig-name descname">Score</code><a class="headerlink" href="#Project2.clusters.algs.Ligand.Score" title="Permalink to this definition">¶</a></dt>
+<dd><p>value representing any identifying value about ligand; here a AutoDock Vina score</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="Project2.clusters.algs.Ligand.SMILES">
+<code class="sig-name descname">SMILES</code><a class="headerlink" href="#Project2.clusters.algs.Ligand.SMILES" title="Permalink to this definition">¶</a></dt>
+<dd><p>Simplified Molecular Input Line Entry</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list of integers</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="Project2.clusters.algs.Ligand.denseBits">
+<code class="sig-name descname">denseBits</code><a class="headerlink" href="#Project2.clusters.algs.Ligand.denseBits" title="Permalink to this definition">¶</a></dt>
+<dd><p>vector of bits representing on (1) or off (0) at every location</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>binary list</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="Project2.clusters.algs.PartitionClustering">
+<em class="property">class </em><code class="sig-prename descclassname">Project2.clusters.algs.</code><code class="sig-name descname">PartitionClustering</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">element_dict</span></em>, <em class="sig-param"><span class="n">distance_metric</span><span class="o">=</span><span class="default_value">'euclidean'</span></em>, <em class="sig-param"><span class="n">initialize_method</span><span class="o">=</span><span class="default_value">'forgy'</span></em>, <em class="sig-param"><span class="n">desired_k</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">mean_threshold</span><span class="o">=</span><span class="default_value">0.5</span></em>, <em class="sig-param"><span class="n">allow_reinit</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#Project2.clusters.algs.PartitionClustering" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform artition clustering (naiive kmeans)</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">For all values in dictionary, assign them to one cluster.</div>
+<div class="line">Initialize random centroids. While max iterations haven’t been met and</div>
+<div class="line">centroids have not reached a consensus, update cluster membership</div>
+<div class="line">to closest centroid and move centroid to the mean of cluster points.</div>
+</div>
+<div class="line-block">
+<div class="line">Limitations:</div>
+<div class="line-block">
+<div class="line">1. random initialization works very poorly</div>
+<div class="line">2. centroids often end up with no members</div>
+<div class="line">3. jaccard distance metric does not have large enough range so centroids converge too quickly</div>
+<div class="line">4. centroids don’t represent real data points.</div>
+<div class="line">5. In jaccard distance, means have to be artificially binarized with a 0.5 threshold.</div>
+</div>
+</div>
+<div class="line-block">
+<div class="line">SUB functions:</div>
+<div class="line-block">
+<div class="line">initialize()</div>
+<div class="line">assign_centroids()</div>
+<div class="line">update_rule()</div>
+<div class="line">update_centroids()</div>
+<div class="line">cluster()</div>
+</div>
+</div>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>element_dict</strong> (<em>dictionary of class Ligand</em>) – dictionary where key is identifying element and values is a Ligand class</p></li>
+<li><p><strong>distance_metric</strong> (<em>str</em>) – [ “euclidean” (default), “jaccard”, “tanimoto” (equivalent to jaccard here)]</p></li>
+<li><p><strong>initialize_method</strong> (<em>str</em>) – [“forgy” (default)] method to intialize centroids with</p></li>
+<li><p><strong>desired_k</strong> (<em>int</em>) – defaults 1. Desired number of clusters.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="Project2.clusters.algs.PartitionClustering.assign_centroids">
+<code class="sig-name descname">assign_centroids</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Project2.clusters.algs.PartitionClustering.assign_centroids" title="Permalink to this definition">¶</a></dt>
+<dd><p>Assign datapoints to closest centroids</p>
+<div class="line-block">
+<div class="line">For all ligands, calculate the distance to all centroids.</div>
+<div class="line">Update ligand to be apart of whichever centroid is closest.</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="Project2.clusters.algs.PartitionClustering.cluster">
+<code class="sig-name descname">cluster</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">seed</span><span class="o">=</span><span class="default_value">3</span></em>, <em class="sig-param"><span class="n">max_iter</span><span class="o">=</span><span class="default_value">10</span></em><span class="sig-paren">)</span><a class="headerlink" href="#Project2.clusters.algs.PartitionClustering.cluster" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform K-means clustering</p>
+<div class="line-block">
+<div class="line">Randomly choose k points to be initial centroids (highly dependent on seed).</div>
+<div class="line">Until the max iteration number is reached or centroids stop moving,</div>
+<div class="line">assign datapoints to centroids, and update those centroids using the mean value of all cluster members.</div>
+</div>
+<dl class="py attribute">
+<dt id="Project2.clusters.algs.PartitionClustering.self">
+<code class="sig-name descname">self</code><a class="headerlink" href="#Project2.clusters.algs.PartitionClustering.self" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>PartitionClustering class</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="Project2.clusters.algs.PartitionClustering.seed">
+<code class="sig-name descname">seed</code><a class="headerlink" href="#Project2.clusters.algs.PartitionClustering.seed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Random seed to start with</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="Project2.clusters.algs.PartitionClustering.max_iter">
+<code class="sig-name descname">max_iter</code><a class="headerlink" href="#Project2.clusters.algs.PartitionClustering.max_iter" title="Permalink to this definition">¶</a></dt>
+<dd><p>maximum number of iterations you want to allow.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py method">
+<dt id="Project2.clusters.algs.PartitionClustering.initialize">
+<code class="sig-name descname">initialize</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Project2.clusters.algs.PartitionClustering.initialize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize Centroids</p>
+<div class="line-block">
+<div class="line">Randomly selects datapoints to serve as initial k centroids</div>
+<div class="line">~Really doesn’t work, but didn’t have time to code k++</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="Project2.clusters.algs.PartitionClustering.update_centroids">
+<code class="sig-name descname">update_centroids</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Project2.clusters.algs.PartitionClustering.update_centroids" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update Centroids</p>
+<div class="line-block">
+<div class="line">For all centroids,  in current cluster (df), calcualte the mean values.</div>
+<div class="line">This either directly becomes your centroid value (method == “mean”)</div>
+<div class="line">Or you can use a 0.5 thresholds to keep the format binary.</div>
+</div>
+<div class="line-block">
+<div class="line">Note: theres is a 0% gaurentee the centroids will update to represent any</div>
+<div class="line">real value in the dataset (or nature for that matter)</div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="Project2.clusters.algs.PartitionClustering.update_rule">
+<code class="sig-name descname">update_rule</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em>, <em class="sig-param"><span class="n">method</span><span class="o">=</span><span class="default_value">'binarized_mean'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#Project2.clusters.algs.PartitionClustering.update_rule" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rule for how to create new centroids</p>
+<div class="line-block">
+<div class="line">For all ligands in current cluster (df), calcualte the mean values.</div>
+<div class="line">This either directly becomes your centroid value (method == “mean”)</div>
+<div class="line">Or you can use a 0.5 thresholds to keep the format binary.</div>
+</div>
+<div class="line-block">
+<div class="line">Note: theres is a 0% gaurentee the centroids will update to represent any</div>
+<div class="line">real value in the dataset (or nature for that matter)</div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="Project2.clusters.algs.adjusted_RandIndex">
+<code class="sig-prename descclassname">Project2.clusters.algs.</code><code class="sig-name descname">adjusted_RandIndex</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">clustersA</span></em>, <em class="sig-param"><span class="n">clustersB</span></em><span class="sig-paren">)</span><a class="headerlink" href="#Project2.clusters.algs.adjusted_RandIndex" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate adjusted Rand Index.</p>
+<div class="line-block">
+<div class="line">This metric compares the similarity between two clusterings, or between your predicted and observed clusterings.</div>
+<div class="line">This has been adjusted for the random chance that elements could be grouped together.</div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>clustersA</strong> (<em>numpy array</em>) – 1D list representing element grouping</p></li>
+<li><p><strong>clustersB</strong> (<em>numpy array</em>) – 1D list representing element grouping</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt>
+<code class="sig-name descname">rand index</code></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="Project2.clusters.algs.dist">
+<code class="sig-prename descclassname">Project2.clusters.algs.</code><code class="sig-name descname">dist</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">point1</span></em>, <em class="sig-param"><span class="n">point2</span></em>, <em class="sig-param"><span class="n">method</span><span class="o">=</span><span class="default_value">'euclidean'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#Project2.clusters.algs.dist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the distance between two points.
+|       Note: “jaccard” and “tanimoto” returns with a scale factor of 10.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>point1</strong> (<em>numpy array of numeric values</em>) – Vector of integers representing the location of point 1 (can be coordinates or smiles)</p></li>
+<li><p><strong>point2</strong> (<em>numpy array of numeric values</em>) – Vector of integers representing the location of point 2 (can be coordinates or smiles)</p></li>
+<li><p><strong>method</strong> (<em>str</em>) – default “euclidean”. Please use Euclidean for coordinate space and “jaccard” or “tanimoto” for SMILES/binary vectors</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="Project2.clusters.algs.inter_cluster_dist">
+<code class="sig-prename descclassname">Project2.clusters.algs.</code><code class="sig-name descname">inter_cluster_dist</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">p_mat</span></em>, <em class="sig-param"><span class="n">point</span></em>, <em class="sig-param"><span class="n">allfoes</span></em>, <em class="sig-param"><span class="n">labels</span></em><span class="sig-paren">)</span><a class="headerlink" href="#Project2.clusters.algs.inter_cluster_dist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate inter-cluster distances</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>p_matrix</strong> (<em>pandas dataframe</em>) – precomputed distance matrix for all samples included in labels set</p></li>
+<li><p><strong>point</strong> (<em>integer</em>) – index of current sample in proximity matrix</p></li>
+<li><p><strong>allfoes</strong> (<em>list</em>) – list of indexes of points in all other clusters than current point
+labels (numpy array): list representing all datapoints clustering assignment.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt id="Project2.clusters.algs.b">
+<code class="sig-prename descclassname">Project2.clusters.algs.</code><code class="sig-name descname">b</code><a class="headerlink" href="#Project2.clusters.algs.b" title="Permalink to this definition">¶</a></dt>
+<dd><p>mean distance from point to all points in the closest cluster.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="Project2.clusters.algs.intra_cluster_dist">
+<code class="sig-prename descclassname">Project2.clusters.algs.</code><code class="sig-name descname">intra_cluster_dist</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">p_mat</span></em>, <em class="sig-param"><span class="n">point</span></em>, <em class="sig-param"><span class="n">friends</span></em><span class="sig-paren">)</span><a class="headerlink" href="#Project2.clusters.algs.intra_cluster_dist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate intra-cluster distances</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>p_matrix</strong> (<em>pandas dataframe</em>) – precomputed distance matrix for all samples included in labels set</p></li>
+<li><p><strong>point</strong> (<em>integer</em>) – index of current sample in proximity matrix</p></li>
+<li><p><strong>friends</strong> (<em>list</em>) – list of indexes of points in same clusters as current point</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt id="Project2.clusters.algs.a">
+<code class="sig-prename descclassname">Project2.clusters.algs.</code><code class="sig-name descname">a</code><a class="headerlink" href="#Project2.clusters.algs.a" title="Permalink to this definition">¶</a></dt>
+<dd><p>mean distance from point to all points in the same cluster</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="Project2.clusters.algs.isbinary">
+<code class="sig-prename descclassname">Project2.clusters.algs.</code><code class="sig-name descname">isbinary</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">a_list</span></em><span class="sig-paren">)</span><a class="headerlink" href="#Project2.clusters.algs.isbinary" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks in numpy array is binary.
+|       Returns True if list is binary (only 0/1)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>a_list</strong> (<em>list</em>) – </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="Project2.clusters.algs.linkage">
+<code class="sig-prename descclassname">Project2.clusters.algs.</code><code class="sig-name descname">linkage</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">point1</span></em>, <em class="sig-param"><span class="n">point2</span></em>, <em class="sig-param"><span class="n">method</span><span class="o">=</span><span class="default_value">'single'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#Project2.clusters.algs.linkage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the linkage value between two points depending on linkage metric chosen.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>point1</strong> (<em>int</em>) – Integer should represent a single cell in proximity matrix</p></li>
+<li><p><strong>point2</strong> (<em>int</em>) – Integer should represent a single cell in proximity matrix</p></li>
+<li><p><strong>method</strong> (<em>str</em>) – default “single”. Other options include “average” and “complete”</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="Project2.clusters.algs.make_distance_matrix">
+<code class="sig-prename descclassname">Project2.clusters.algs.</code><code class="sig-name descname">make_distance_matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#Project2.clusters.algs.make_distance_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a distance Matrix.</p>
+<div class="line-block">
+<div class="line">Note: This was originally a sub-function only for the heirarchial class</div>
+<div class="line">so it may be written a little funky. Luckily both heirarchial and partion</div>
+<div class="line">have the same core elements.</div>
+<div class="line"><br /></div>
+<div class="line">Create a N * N matrix where every row and column represents a Ligand ID.</div>
+<div class="line">This represents when the number of clusters isequivalent to the number of</div>
+<div class="line">data points. Diagnol values all set to NaN as distance to self should not</div>
+<div class="line">be included in future calculations. For all ligand combinations, calculate</div>
+<div class="line">the distance using the specified distance_metric in self.</div>
+</div>
+<div class="line-block">
+<div class="line">Matrix will be symmetrical.</div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt id="Project2.clusters.algs.n_choose_r">
+<code class="sig-prename descclassname">Project2.clusters.algs.</code><code class="sig-name descname">n_choose_r</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">n</span></em>, <em class="sig-param"><span class="n">r</span></em><span class="sig-paren">)</span><a class="headerlink" href="#Project2.clusters.algs.n_choose_r" title="Permalink to this definition">¶</a></dt>
+<dd><p>N choose R (nCr) calculation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n</strong> (<em>int</em>) – </p></li>
+<li><p><strong>r</strong> (<em>int</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="Project2.clusters.algs.read_in_ligands">
+<code class="sig-prename descclassname">Project2.clusters.algs.</code><code class="sig-name descname">read_in_ligands</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">csvfile</span></em>, <em class="sig-param"><span class="n">total_bits</span><span class="o">=</span><span class="default_value">1024</span></em><span class="sig-paren">)</span><a class="headerlink" href="#Project2.clusters.algs.read_in_ligands" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read in CSV file listing relevant ligand information.</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">Convert sparse SMILES scores to dense bit representation.</div>
+</div>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>location</strong> (<em>file</em>) – CSV file location to be read in. must be comma delimited.</p></li>
+<li><p><strong>total_bits</strong> (<em>int</em>) – default 1024, will converst short SMILES score to a dense bit score of this length</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt id="Project2.clusters.algs.ligand_dict">
+<code class="sig-prename descclassname">Project2.clusters.algs.</code><code class="sig-name descname">ligand_dict</code><a class="headerlink" href="#Project2.clusters.algs.ligand_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>dictionary where keys are ligand IDs and values are the Ligand class for that particular ID. (input to clustering algos)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="Project2.clusters.algs.silhouette_score">
+<code class="sig-prename descclassname">Project2.clusters.algs.</code><code class="sig-name descname">silhouette_score</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">proximity_matrix</span></em>, <em class="sig-param"><span class="n">labels</span></em><span class="sig-paren">)</span><a class="headerlink" href="#Project2.clusters.algs.silhouette_score" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate silhouette coefficients for each sample.</p>
+<div class="line-block">
+<div class="line">Note, I made the input a proxmity matrix so we don’t have to deal with making sure the distance metrics match again.</div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>proximity_matrix</strong> (<em>pandas dataframe</em>) – precomputed distance matrix for all samples included in labels set (must be in same order)</p></li>
+<li><p><strong>labels</strong> (<em>numpy array</em>) – list representing all datapoints clustering assignment.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt>
+<code class="sig-name descname">sample silhouette score list</code></dt>
+<dd><p>score for each element in label set</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt>
+<code class="sig-name descname">total silhouette score</code></dt>
+<dd><p>mean score for all samples. – total score for clustering</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<div class="toctree-wrapper compound">
+</div>
+<div class="section" id="indices-and-tables">
+<h2>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="#">BMI203:Project 2: Clustering</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="#">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2021, Amanda Everitt.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.4.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/index.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -23,3 +23,68 @@ Testing is as simple as running
 python -m pytest test/*
 ```
 from the root directory of this project.
+
+
+
+
+
+-----------------------------------------------------
+# Amanda additions:
+
+- All functions/classes are contained within the script clusters/algs.py
+- Script can be called in the following ways:
+
+
+```
+#HIERARCHIAL
+from clusters import algs
+ligand_dict = algs.read_in_ligands("ligand_information.csv")
+hc = algs.HierarchicalClustering(ligand_dict, 
+				linkage_metric ="complete",
+                                distance_metric = "jaccard", 
+                                desired_k = 1).cluster()
+
+plt.figure(figsize =(15, 5))
+dn = hierarchy.dendrogram(hc.zmat);
+plt.title("Dendrogram of small molecule dataset (dense bits)")
+plt.xlabel('Clusters')
+plt.ylabel('Jaccard Distance')
+plt.axhline(y=3, color='r', linestyle='-')
+plt.show()
+
+hc = algs.HierarchicalClustering(ligand_dict, 
+				linkage_metric ="complete",
+                                distance_metric = "jaccard", 
+                                desired_k = 5).cluster()
+print(hc.cluster_results)
+```
+
+
+```
+#K-MEANS
+from clusters import algs
+ligand_dict = algs.read_in_ligands("ligand_information.csv")
+pc = algs.PartitionClustering(ligand_dict, distance_metric = "jaccard", allow_reinit=True,  
+                                desired_k = 5).cluster(seed=3, max_iter = 50)
+print(pc.final_clusters)
+```
+
+
+
+- Script documentation is done through docstrings rendered with Sphinx:
+```
+open aseveritt/BMI203_Project2/docs/build/html/index.html
+```
+
+
+
+- Unit testing is all self contained within the script and calls nothing. 
+
+- Plotting and images located in jupyter notebook:
+```
+open aseveritt/BMI203_Project2/Amanda_Everitt_BMI203_HW2.ipynb
+```
+
+
+
+

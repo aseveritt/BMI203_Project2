@@ -4,3 +4,4 @@ data/
 __MACOSX/
 .ipynb_checkpoints/
 commands.txt
+__pycache__/
