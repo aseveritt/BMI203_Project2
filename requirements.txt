@@ -1,9 +1,4 @@
 pytest>=3.0
 numpy>=1.11.2
 pandas>=1.1.0
-csv
 itertools
-random
-sys
-math
-
