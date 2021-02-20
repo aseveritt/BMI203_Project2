@@ -46,7 +46,7 @@ def test_partitioning():
 		 "e": algs.Ligand("e", 0, "whatever", np.array([10, 4])),
 		 "f": algs.Ligand("f", 0, "whatever", np.array([10, 0]))
 		 }
-	tester = algs.PartitionClustering(X, distance_metric = "euclidean", desired_k = 2).cluster()
+	tester = algs.PartitionClustering(X, distance_metric = "euclidean", desired_k = 2).cluster(seed = 1)
 	assert tester.labels == {'a': 0, 'b': 0, 'c': 0, 'd': 1, 'e': 1, 'f': 1}, "Failing kmeans easy test"
 
 def test_hierarchical():
